@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import subprocess
 import sys
-from pathlib import Path
 
 
 def run_cli(*args: str) -> subprocess.CompletedProcess[str]:
