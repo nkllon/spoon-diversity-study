@@ -1,0 +1,4 @@
+graph G {
+  node1 [label="NoNamespace"];
+}
+

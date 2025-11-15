@@ -14,8 +14,8 @@
 | Task | `sp:informedByTask` → `sp:Task` | `TaskID` | DOT: Trial→Task |
 
 ## Controlled Lists
-- ToolSet: `Spoon-A`, `Spoon-B`
-- TaskID: `SCOOP`, `TRANSFER`
+- ToolSet: `Spoon-A`, `Spoon-B` (from ontology `sp:ToolSetCatalog`)
+- TaskID: `SCOOP`, `TRANSFER` (from ontology `sp:TaskCatalog`)
 
 ## Validation
 - Run `make spec-validate` (syntax/structure checks; SHACL presence)

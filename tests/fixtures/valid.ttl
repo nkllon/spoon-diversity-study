@@ -1,0 +1,16 @@
+@prefix sp: <http://example.org/spore/Spore001#> .
+@prefix schema: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+sp:ToolSetCatalog a rdfs:Class .
+sp:TaskCatalog a rdfs:Class .
+
+sp:catalog-entry-toolset-A a sp:ToolSetCatalog ;
+  schema:identifier "Spoon-A" .
+
+sp:catalog-entry-task-scoop a sp:TaskCatalog ;
+  schema:identifier "SCOOP" .
+
+sp:participant-001 a sp:Participant .
+

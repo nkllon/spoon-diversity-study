@@ -1,0 +1,6 @@
+digraph G {
+  sp_Participant [label="sp:Participant"];
+  sp_ToolSet [label="sp:ToolSet"];
+  sp_Participant -> sp_ToolSet;
+}
+

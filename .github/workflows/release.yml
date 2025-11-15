@@ -1,0 +1,42 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag to create (e.g., v0.4.0)"
+        required: true
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Create tag
+        run: |
+          git tag "${{ github.event.inputs.tag }}"
+          git push origin "${{ github.event.inputs.tag }}"
+      - name: Build bundle
+        run: |
+          zip -r bundle-${{ github.event.inputs.tag }}.zip \
+            spore_SpoonDiversityOntology_v0.4.ttl \
+            spoon_shapes_v0.4.ttl \
+            spoon_diversity_dataset_template_v0.4.csv \
+            spoon_experiment_workflow_v0.4.puml \
+            spoon_analysis_pipeline_v0.4.mmd \
+            ontology_hierarchy_v0.4.dot \
+            spoon_diversity_data_dictionary_v0.4.md \
+            spoon_spore_registry_v0.4.ttl \
+            guidance_spoon_v0.4.ttl \
+            README.md
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event.inputs.tag }}
+          files: |
+            bundle-${{ github.event.inputs.tag }}.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+

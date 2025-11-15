@@ -1,3 +1,16 @@
+# Structure Steering – Spoon Diversity Study
+
+## Repos & Paths
+- Artifacts at repo root (TTL, CSV, PUML, MMD, DOT)
+- CLI at `src/spoon_diversity/`
+- Tests at `tests/`
+- Steering `.kiro/steering/`
+- Specs `.kiro/specs/`
+
+## Versioning
+- Bundle versions `v0.x` mirrored across filenames
+- Package uses semver `0.x.y`
+
 # Spoon Diversity Study – Structure Steering (v0.3)
 
 Repository layout (key files)

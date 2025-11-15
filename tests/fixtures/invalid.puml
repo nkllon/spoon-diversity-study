@@ -1,0 +1,6 @@
+@startuml
+start
+:Only nodes no transitions;
+stop
+@enduml
+
