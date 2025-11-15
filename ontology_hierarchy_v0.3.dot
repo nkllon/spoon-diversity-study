@@ -1,0 +1,17 @@
+digraph G {
+  rankdir=LR;
+
+  sp_Participant [label="sp:Participant"];
+  schema_Person [label="schema:Person"];
+  sp_ToolUseObservation [label="sp:ToolUseObservation"];
+  sosa_Observation [label="sosa:Observation"];
+  sp_Trial [label="sp:Trial"];
+  prov_Activity [label="prov:Activity"];
+  sp_ToolSet [label="sp:ToolSet"];
+
+  sp_Participant -> schema_Person [label="subClassOf"];
+  sp_ToolUseObservation -> sosa_Observation [label="subClassOf"];
+  sp_Trial -> prov_Activity [label="subClassOf"];
+  sp_Trial -> sp_Participant [label="associatedWith"];
+  sp_Trial -> sp_ToolSet [label="used"];
+}

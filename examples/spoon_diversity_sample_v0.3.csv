@@ -1,0 +1,4 @@
+ParticipantID,HandSize_cm,TaskID,ToolSet,Time_s,NumOperations,ErrorRate_pct,SwitchCount,SwitchTime_s,PerceivedCognitiveCost,PerceivedDiscomfort
+P001,18.4,SCOOP,Spoon-A,42.7,15,3.1,2,5.2,4,2
+P002,19.2,TRANSFER,Spoon-B,38.5,17,2.0,1,2.3,3,2
+

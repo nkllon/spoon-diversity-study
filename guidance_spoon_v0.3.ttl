@@ -1,0 +1,22 @@
+@prefix plan:  <https://ontology.beastmost.com/plan#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+
+# Guidance Registry for Spoon Diversity Study (v0.3)
+@base <https://ontology.example.org/spoon-diversity/> .
+
+<guidance/PoD_2025-11-15>
+    a plan:PlanOfDay ;
+    rdfs:label "Plan of Day – 2025-11-15" ;
+    plan:registeredIn <guidance_spoon_v0.3.ttl> ;
+    plan:filePath "docs/guidance/PoD_2025-11-15.ttl" ;
+    plan:readmePath "docs/guidance/README_PoD_2025-11-15.md" .
+
+<guidance_spoon_v0.3.ttl>
+    a plan:GuidanceRegistry ;
+    rdfs:label "Spoon Diversity Guidance Registry" ;
+    plan:lastUpdated "2025-11-15T00:00:00Z"^^xsd:dateTime ;
+    plan:registryVersion "0.3.0" .
+
+

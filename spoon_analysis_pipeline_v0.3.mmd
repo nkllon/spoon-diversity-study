@@ -1,0 +1,6 @@
+flowchart TD
+  A[Ingest CSV] --> B[Validate schema]
+  B --> C[Compute derived metrics]
+  C --> D[Stats: ANOVA/LMM + effect sizes]
+  D --> E[Visualize: boxplots, ECDF, switch dynamics]
+  E --> F[Export tables/figures]

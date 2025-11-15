@@ -1,0 +1,17 @@
+@startuml
+start
+:Recruit participant;
+--> :Obtain informed consent;
+:Measure hand size (cm);
+:Brief task and switching rules;
+--> if (Trials remaining?) then (yes)
+  :Select ToolSet and Task per counterbalance;
+  :Run trial;
+  :Record Time_s, NumOperations, ErrorRate_pct;
+  :Allow/Record switches -> SwitchCount, SwitchTime_s;
+  --> back to (Trials remaining?)
+else (no)
+  :Post-survey (PerceivedCognitiveCost, PerceivedDiscomfort);
+endif
+stop
+@enduml
