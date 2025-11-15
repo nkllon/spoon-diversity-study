@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Tuple, Set
+from typing import Tuple, Set, Any
 
 
 def require_file(path: str | Path) -> None:
@@ -10,12 +10,12 @@ def require_file(path: str | Path) -> None:
 		raise FileNotFoundError(f"File not found: {path}")
 
 
-def _load_rdf_graph(ttl_path: str | Path):
+def _load_rdf_graph(ttl_path: str | Path) -> Any:
 	"""
 	Load a TTL file into an rdflib Graph. Raises ValueError with readable context on failure.
 	"""
 	try:
-		from rdflib import Graph  # type: ignore
+		from rdflib import Graph
 		graph = Graph()
 	except Exception as exc:  # pragma: no cover
 		raise RuntimeError("rdflib is required for TTL validation. Please install rdflib.") from exc
@@ -78,7 +78,7 @@ def validate_shapes(ttl_path: str | Path, shapes_path: str | Path | None) -> Non
 	data_graph = _load_rdf_graph(ttl_path)
 	shapes_graph = _load_rdf_graph(shapes_path)
 	try:
-		from pyshacl import validate as shacl_validate  # type: ignore
+		from pyshacl import validate as shacl_validate
 	except Exception as exc:  # pragma: no cover
 		raise RuntimeError("pyshacl is required for SHACL validation. Please install pyshacl.") from exc
 	conforms, _, report_text = shacl_validate(
@@ -95,7 +95,7 @@ def validate_shapes(ttl_path: str | Path, shapes_path: str | Path | None) -> Non
 
 
 def _get_vocab_from_ttl(ttl_path: str | Path) -> Tuple[Set[str], Set[str]]:
-	from rdflib import Namespace, RDF, Literal  # type: ignore
+	from rdflib import Namespace, RDF, Literal
 	g = _load_rdf_graph(ttl_path)
 	SP = Namespace("http://example.org/spore/Spore001#")
 	SCHEMA = Namespace("http://schema.org/")
@@ -115,7 +115,7 @@ def generate_json_schema_from_shacl(shapes_path: str | Path, out_path: str | Pat
 	Generate a minimal JSON Schema representation from SHACL shapes to assist CSV validation tooling.
 	This focuses on the known properties used by the study schema.
 	"""
-	from rdflib import Namespace, RDF, Literal  # type: ignore
+	from rdflib import Namespace, RDF, Literal
 
 	require_file(shapes_path)
 	g = _load_rdf_graph(shapes_path)
@@ -202,7 +202,7 @@ def generate_dictionary(csv_path: str | Path, out_path: str | Path, ontology_ttl
 	comments: dict[str, str] = {}
 	if ontology_ttl:
 		try:
-			from rdflib import Namespace, RDFS  # type: ignore
+			from rdflib import Namespace, RDFS
 			g = _load_rdf_graph(ontology_ttl)
 			SP = Namespace("http://example.org/spore/Spore001#")
 			prop_map = {

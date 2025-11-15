@@ -23,6 +23,7 @@ def main() -> None:
 	p_validate.add_argument("--dot", required=False)
 	p_validate.add_argument("--shapes", required=False, default=None)
 	p_validate.add_argument("--all", action="store_true", help="Use repository defaults (v0.4) for all artifact paths")
+	p_validate.add_argument("--json", dest="json_out", action="store_true", help="Emit JSON output summary")
 
 	p_sync = subparsers.add_parser("sync", help="Generate/update data dictionary from CSV header")
 	p_sync.add_argument("--ontology", required=True)
@@ -34,10 +35,11 @@ def main() -> None:
 	cfg: dict[str, str] = {}
 	if args.config:
 		try:
-			try:
-				import tomllib  # type: ignore[attr-defined]
-			except Exception:
-				import tomli as tomllib  # type: ignore
+			import sys
+			if sys.version_info >= (3, 11):
+				import tomllib
+			else:
+				import tomli as tomllib
 			cfg_data = Path(args.config).read_bytes()
 			cfg = tomllib.loads(cfg_data.decode("utf-8")).get("artifacts", {})
 		except Exception as exc:
@@ -62,21 +64,27 @@ def main() -> None:
 		for name, val in [("ttl", ttl), ("csv", csv), ("puml", puml), ("mmd", mmd), ("dot", dot)]:
 			if not val:
 				parser.error(f"Missing required argument: --{name} (use --all or --config to supply defaults)")
-		args.ttl, args.csv, args.puml, args.mmd, args.dot, args.shapes = ttl, csv, puml, mmd, dot, shapes
-		results = {"ttl": None, "csv": None, "puml": None, "mmd": None, "dot": None, "shapes": None}
+		# Use local typed variables for validation
+		ttl_s: str = str(ttl)
+		csv_s: str = str(csv)
+		puml_s: str = str(puml)
+		mmd_s: str = str(mmd)
+		dot_s: str = str(dot)
+		shapes_s = str(shapes) if shapes else None
+		results: dict[str, str | None] = {"ttl": None, "csv": None, "puml": None, "mmd": None, "dot": None, "shapes": None}
 		try:
-			validators.validate_ttl(args.ttl)
+			validators.validate_ttl(ttl_s)
 			results["ttl"] = "ok"
-			validators.validate_csv(args.csv, args.ttl)
+			validators.validate_csv(csv_s, ttl_s)
 			results["csv"] = "ok"
-			validators.validate_puml(args.puml)
+			validators.validate_puml(puml_s)
 			results["puml"] = "ok"
-			validators.validate_mermaid(args.mmd)
+			validators.validate_mermaid(mmd_s)
 			results["mmd"] = "ok"
-			validators.validate_dot(args.dot)
+			validators.validate_dot(dot_s)
 			results["dot"] = "ok"
-			if args.shapes:
-				validators.validate_shapes(args.ttl, args.shapes)
+			if shapes_s:
+				validators.validate_shapes(ttl_s, shapes_s)
 				results["shapes"] = "ok"
 		except Exception as exc:
 			if args.json_out:
@@ -99,4 +107,5 @@ def main() -> None:
 	else:
 		parser.error("Unknown command")
 
-
+if __name__ == "__main__":
+	main()

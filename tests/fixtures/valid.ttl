@@ -13,5 +13,4 @@ sp:catalog-entry-task-scoop a sp:TaskCatalog ;
   schema:identifier "SCOOP" .
 
 sp:participant-001 a sp:Participant .
-*** End Patch  ```}`} ***!
 

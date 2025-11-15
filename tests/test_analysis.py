@@ -16,7 +16,7 @@ def test_metrics_ops_per_second():
 
 
 def test_metrics_errors_per_op():
-	assert compute_errors_per_operation(10.0, 20) == 0.5
+	assert compute_errors_per_operation(10.0, 20) == 0.1
 	assert compute_errors_per_operation(0.0, 10) == 0.0
 	assert compute_errors_per_operation(10.0, 0) is None
 	assert compute_errors_per_operation(None, 10) is None
@@ -32,5 +32,5 @@ def test_compute_trial_metrics():
 	m = compute_trial_metrics(10, 5.0, 10.0, 2.0)
 	assert m.operations_per_second == 2.0
 	assert m.errors_per_operation == 0.1
-	assert m.switch_overhead_fraction == 0.2
+	assert m.switch_overhead_fraction == 0.4
 

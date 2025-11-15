@@ -54,6 +54,10 @@ strict_optional = true
 check_untyped_defs = true
 disallow_untyped_defs = true
 
+[[tool.mypy.overrides]]
+module = ["tomli", "tomllib"]
+ignore_missing_imports = true
+
 [tool.hatch.build.targets.wheel]
 packages = ["src/spoon_diversity"]
 

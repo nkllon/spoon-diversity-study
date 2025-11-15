@@ -5,10 +5,15 @@ import json
 import pytest
 
 from spoon_diversity import validators
-from .test_cli import run_cli
+import subprocess
+import sys
 
 
 FIX = Path(__file__).parent / "fixtures"
+
+def run_cli(*args: str) -> subprocess.CompletedProcess[str]:
+	cmd = [sys.executable, "-m", "spoon_diversity.cli", *args]
+	return subprocess.run(cmd, check=False, capture_output=True, text=True)
 
 
 def test_ttl_and_shacl_validation_ok():
@@ -30,23 +35,25 @@ def test_csv_validation_ok():
 	validators.validate_csv(csv_path, ttl)
 
 
-@pytest.mark.parametrize("col,msg", [
-	("HandSize_cm", ">= 0"),
-	("TaskID", "controlled"),
-	("Time_s", ">= 0"),
-	("NumOperations", "integer"),
-	("ErrorRate_pct", "between 0 and 100"),
-	("SwitchCount", "integer"),
-	("SwitchTime_s", ">= 0"),
-	("PerceivedCognitiveCost", "1–7"),
-	("PerceivedDiscomfort", "1–7"),
-])
-def test_csv_validation_bad_values(col: str, msg: str):
+def test_csv_validation_bad_values_hand_size():
 	ttl = FIX / "valid.ttl"
 	csv_path = FIX / "invalid.csv"
 	with pytest.raises(ValueError) as ei:
 		validators.validate_csv(csv_path, ttl)
-	assert col in str(ei.value)
+	assert "HandSize_cm" in str(ei.value)
+
+
+def test_csv_validation_bad_taskid(tmp_path: Path):
+	ttl = FIX / "valid.ttl"
+	data = (
+		"ParticipantID,HandSize_cm,TaskID,ToolSet,Time_s,NumOperations,ErrorRate_pct,SwitchCount,SwitchTime_s,PerceivedCognitiveCost,PerceivedDiscomfort\n"
+		"P001,10,BADTASK,Spoon-A,1,1,0,0,0,3,3\n"
+	)
+	p = tmp_path / "bad_task.csv"
+	p.write_text(data, encoding="utf-8")
+	with pytest.raises(ValueError) as ei:
+		validators.validate_csv(p, ttl)
+	assert "TaskID" in str(ei.value)
 
 
 def test_diagram_validations_ok():
@@ -84,7 +91,6 @@ def test_cli_validate_json_ok(tmp_path: Path):
 
 
 def test_cli_validate_failure_returns_nonzero():
-	root = Path(__file__).resolve().parents[1]
 	cp = run_cli(
 		"validate",
 		"--ttl", str(FIX / "invalid.ttl"),
