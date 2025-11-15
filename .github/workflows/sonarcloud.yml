@@ -11,6 +11,12 @@ jobs:
   analyze:
     runs-on: ubuntu-latest
     steps:
+      - name: Check Sonar token present
+        run: |
+          if [ -z "${{ secrets.SONAR_TOKEN }}" ]; then
+            echo "SONAR_TOKEN is not configured. Set it as an org or repo secret via stdin."; exit 1;
+          fi
+
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -23,7 +29,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -e ".[dev]"
+          pip install ".[dev]"
 
       - name: Run tests with coverage
         run: |
