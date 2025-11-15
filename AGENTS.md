@@ -58,6 +58,13 @@ Kiro-style Spec Driven Development implementation on AI-DLC (AI Development Life
 - 3-phase approval workflow: Requirements → Design → Tasks → Implementation
 - Human review required each phase; use `-y` only for intentional fast-track
 - Keep steering current and verify alignment with `/kiro/spec-status`
+- Verify-before-ask: use available read-only tools to gather facts before asking the user
+  - Examples: check git ahead/behind, list secrets, inspect CI status/logs
+  - Provide a clear reason when you cannot verify (e.g., missing permissions)
+- Secret safety: never request, echo, or overwrite secrets without explicit instruction
+  - First check existence via read-only listing (e.g., `gh secret list`)
+  - If missing, provide steps; do not set by default
+- Disobedience disclosure: if platform/safety constraints compel deviation from user directions, declare the deviation and the reason before proceeding, and propose the least-privilege safe alternative.
 
 ## Steering Configuration
 - Load entire `.kiro/steering/` as project memory

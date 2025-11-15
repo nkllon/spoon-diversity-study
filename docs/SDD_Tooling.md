@@ -10,6 +10,16 @@ Run from the project root:
 npx --yes cc-sdd@latest --cursor --lang en
 ```
 
+## Operational Safety (Agents)
+- Verification-first: Use read-only tools to gather facts before asking users
+  - Git: `git fetch` + ahead/behind checks
+  - CI: read workflow logs and statuses
+  - Secrets: `gh secret list | grep NAME` to confirm presence
+- Secrets handling:
+  - Never echo or write secret values into code or logs.
+  - Do not set/overwrite secrets unless explicitly instructed; provide UI/CLI steps instead.
+  - Guard CI steps with secret checks (e.g., `if: ${{ secrets.SONAR_TOKEN != '' }}`).
+
 What it does:
 - Installs Kiro slash commands in `.cursor/commands/kiro/`
 - Adds SDD settings in `.kiro/settings/`

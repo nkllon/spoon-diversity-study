@@ -1,3 +1,19 @@
+# Tech Steering – Spoon Diversity Study
+
+## Stack
+- Python 3.10–3.12, hatchling packaging
+- rdflib, pyshacl for RDF/SHACL
+- pytest, ruff, black, mypy
+
+## Automation
+- GitHub Actions runs lint, typecheck, tests, and validation
+- Makefile convenience targets: lint, fmt, typecheck, test, ci
+
+## Operational discipline (agent)
+- Verification-first: Prefer list/view/diff before proposing actions.
+- Secrets: Never overwrite or reveal; check existence via read-only means (e.g., `gh secret list`).
+- Non-destructive defaults: Propose branches and PRs over direct changes to `main`.
+
 # Spoon Diversity Study – Tech Steering (v0.3)
 
 Stack and tooling

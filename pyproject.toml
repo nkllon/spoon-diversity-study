@@ -4,13 +4,26 @@ build-backend = "hatchling.build"
 
 [project]
 name = "spoon-diversity-tools"
-version = "0.3.0"
+version = "0.4.0"
 description = "CLI utilities for the Spoon Diversity Study: validate artifacts and sync data dictionary."
 readme = "README_SpoonDiversityStudy_v0.3.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
 authors = [{ name = "nkllon" }]
-dependencies = []
+dependencies = [
+  "rdflib>=7.0.0",
+  "pyshacl>=0.23.0",
+]
+
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://example.org/spoon-diversity"
+Repository = "https://example.org/spoon-diversity/repo"
 
 [project.scripts]
 spoon-diversity = "spoon_diversity.cli:main"

@@ -1,0 +1,4 @@
+This is not turtle
+@prefix sp <http://broken> 
+missing terminators and structure
+

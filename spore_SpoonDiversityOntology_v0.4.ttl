@@ -1,0 +1,127 @@
+@prefix sp: <http://example.org/spore/Spore001#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix sosa: <http://www.w3.org/ns/sosa/> .
+@prefix ssn: <http://www.w3.org/ns/ssn/> .
+@prefix schema: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+# Spoon Diversity Ontology v0.4
+
+sp:Participant a rdfs:Class ;
+	rdfs:label "Participant" ;
+	rdfs:comment "A human participant in the spoon diversity study" ;
+	rdfs:subClassOf schema:Person .
+
+sp:Tool a rdfs:Class ;
+	rdfs:label "Tool" ;
+	rdfs:comment "A single tool instance (e.g., a particular spoon model)" .
+
+sp:ToolSet a rdfs:Class ;
+	rdfs:label "ToolSet" ;
+	rdfs:comment "A named set of one or more tools used in a trial" .
+
+sp:Task a rdfs:Class ;
+	rdfs:label "Task" ;
+	rdfs:comment "A task definition performed by participants" .
+
+sp:Trial a rdfs:Class ;
+	rdfs:label "Trial" ;
+	rdfs:comment "One execution instance for a participant-task-toolset combination" ;
+	rdfs:subClassOf prov:Activity .
+
+sp:ToolUseObservation a rdfs:Class ;
+	rdfs:label "ToolUseObservation" ;
+	rdfs:comment "Observation of outcomes for a given trial" ;
+	rdfs:subClassOf sosa:Observation .
+
+# Object properties
+sp:usesToolSet a owl:ObjectProperty ;
+	rdfs:label "uses tool set" ;
+	rdfs:domain sp:Trial ;
+	rdfs:range sp:ToolSet ;
+	rdfs:subPropertyOf prov:used .
+
+sp:associatedParticipant a owl:ObjectProperty ;
+	rdfs:label "associated participant" ;
+	rdfs:domain sp:Trial ;
+	rdfs:range sp:Participant ;
+	rdfs:subPropertyOf prov:wasAssociatedWith .
+
+sp:informedByTask a owl:ObjectProperty ;
+	rdfs:label "informed by task" ;
+	rdfs:domain sp:Trial ;
+	rdfs:range sp:Task ;
+	rdfs:subPropertyOf prov:wasInformedBy .
+
+sp:observesTrial a owl:ObjectProperty ;
+	rdfs:label "observes trial" ;
+	rdfs:domain sp:ToolUseObservation ;
+	rdfs:range sp:Trial ;
+	rdfs:subPropertyOf sosa:hasFeatureOfInterest .
+
+# Datatype properties
+sp:handSizeCm a owl:DatatypeProperty ;
+	rdfs:label "hand size (cm)" ;
+	rdfs:domain sp:Participant ;
+	rdfs:range xsd:decimal .
+
+sp:timeSeconds a owl:DatatypeProperty ;
+	rdfs:label "time (seconds)" ;
+	rdfs:domain sp:ToolUseObservation ;
+	rdfs:range xsd:decimal .
+
+sp:numOperations a owl:DatatypeProperty ;
+	rdfs:label "number of operations" ;
+	rdfs:domain sp:ToolUseObservation ;
+	rdfs:range xsd:integer .
+
+sp:errorRatePercent a owl:DatatypeProperty ;
+	rdfs:label "error rate (%)" ;
+	rdfs:domain sp:ToolUseObservation ;
+	rdfs:range xsd:decimal .
+
+sp:switchCount a owl:DatatypeProperty ;
+	rdfs:label "switch count" ;
+	rdfs:domain sp:ToolUseObservation ;
+	rdfs:range xsd:integer .
+
+sp:switchTimeSeconds a owl:DatatypeProperty ;
+	rdfs:label "switch time (seconds)" ;
+	rdfs:domain sp:ToolUseObservation ;
+	rdfs:range xsd:decimal .
+
+sp:perceivedCognitiveCost a owl:DatatypeProperty ;
+	rdfs:label "perceived cognitive cost (Likert 1–7)" ;
+	rdfs:domain sp:ToolUseObservation ;
+	rdfs:range xsd:integer .
+
+sp:perceivedDiscomfort a owl:DatatypeProperty ;
+	rdfs:label "perceived discomfort (Likert 1–7)" ;
+	rdfs:domain sp:ToolUseObservation ;
+	rdfs:range xsd:integer .
+
+# Controlled vocabularies (canonical identifiers)
+sp:ToolSetCatalog a rdfs:Class ;
+	rdfs:label "ToolSet Catalog" ;
+	rdfs:comment "Marker for cataloging available tool sets." .
+
+sp:TaskCatalog a rdfs:Class ;
+	rdfs:label "Task Catalog" ;
+	rdfs:comment "Marker for cataloging available tasks." .
+
+sp:catalog-entry-toolset-A a sp:ToolSetCatalog ;
+	schema:identifier "Spoon-A" .
+
+sp:catalog-entry-toolset-B a sp:ToolSetCatalog ;
+	schema:identifier "Spoon-B" .
+
+sp:catalog-entry-task-scoop a sp:TaskCatalog ;
+	schema:identifier "SCOOP" ;
+	schema:name "Scoop granular material" .
+
+sp:catalog-entry-task-transfer a sp:TaskCatalog ;
+	schema:identifier "TRANSFER" ;
+	schema:name "Transfer between containers" .
+

@@ -40,7 +40,6 @@ case "${cmd}" in
 		;;
 
 	spec:validate)
-		# Default empty
 		ttl=""
 		csv=""
 		puml=""
@@ -63,72 +62,11 @@ case "${cmd}" in
 		require_arg "--puml" "${puml}"
 		require_arg "--mmd" "${mmd}"
 		require_arg "--dot" "${dot}"
-
-		# Basic existence checks
-		for f in "${ttl}" "${csv}" "${puml}" "${mmd}" "${dot}"; do
-			if [[ ! -f "${f}" ]]; then
-				echo "Error: file not found: ${f}" >&2
-				exit 3
-			fi
-		done
+		cmd=(python3 -m spoon_diversity.cli validate --ttl "${ttl}" --csv "${csv}" --puml "${puml}" --mmd "${mmd}" --dot "${dot}")
 		if [[ -n "${shapes}" ]]; then
-			if [[ ! -f "${shapes}" ]]; then
-				echo "Error: shapes file not found: ${shapes}" >&2
-				exit 3
-			fi
+			cmd+=("--shapes" "${shapes}")
 		fi
-
-		# Lightweight content validations (syntax heuristics)
-		# TTL: require prefixes and at least one class or instance triple terminator '.'
-		if ! grep -Eq '^@prefix[[:space:]]+[a-zA-Z]+' "${ttl}"; then
-			echo "TTL validation failed: missing @prefix declarations in ${ttl}" >&2
-			exit 4
-		fi
-		if ! grep -Eq '\.[[:space:]]*$' "${ttl}"; then
-			echo "TTL validation failed: no triples found (no '.' line endings) in ${ttl}" >&2
-			exit 4
-		fi
-
-		# CSV: ensure header contains required columns
-		required_cols="ParticipantID,HandSize_cm,TaskID,ToolSet,Time_s,NumOperations,ErrorRate_pct,SwitchCount,SwitchTime_s,PerceivedCognitiveCost,PerceivedDiscomfort"
-		header="$(head -n1 "${csv}")"
-		if [[ "${header}" != "${required_cols}" ]]; then
-			echo "CSV validation failed: header mismatch in ${csv}" >&2
-			echo "Expected: ${required_cols}" >&2
-			echo "Actual:   ${header}" >&2
-			exit 5
-		fi
-
-		# PlantUML: minimal markers
-		if ! grep -q '@startuml' "${puml}" || ! grep -q '@enduml' "${puml}"; then
-			echo "PUML validation failed: missing @startuml/@enduml in ${puml}" >&2
-			exit 6
-		fi
-
-		# Mermaid: must start with flowchart or graph keyword
-		if ! grep -Eq '^(flowchart|graph)[[:space:]]' "${mmd}"; then
-			# Allow files starting with 'flowchart' after optional BOM or whitespace
-			if ! head -n1 "${mmd}" | grep -Eq '^(flowchart|graph)[[:space:]]'; then
-				echo "Mermaid validation failed: expected 'flowchart' or 'graph' at top of ${mmd}" >&2
-				exit 7
-			fi
-		fi
-
-		# DOT: must contain digraph
-		if ! grep -Eq '^[[:space:]]*digraph[[:space:]]+[A-Za-z0-9_]+' "${dot}"; then
-			echo "DOT validation failed: missing 'digraph <name>' in ${dot}" >&2
-			exit 8
-		fi
-
-		# SHACL presence check (heuristic)
-		if [[ -n "${shapes}" ]]; then
-			if ! grep -Eq '^@prefix[[:space:]]+sh:' "${shapes}"; then
-				echo "SHACL validation failed: missing sh: prefix in ${shapes}" >&2
-				exit 9
-			fi
-		fi
-
-		echo "✅ spec:validate passed for all inputs."
+		"${cmd[@]}"
 		;;
 
 	spec:sync)
@@ -146,53 +84,32 @@ case "${cmd}" in
 		require_arg "--ontology" "${ontology}"
 		require_arg "--csv" "${csv}"
 		require_arg "--dict" "${dict}"
-
-		if [[ ! -f "${csv}" ]]; then
-			echo "Error: CSV not found: ${csv}" >&2
-			exit 3
-		fi
-		# Generate or update a simple data dictionary from the CSV header
-		header="$(head -n1 "${csv}")"
-		IFS=',' read -r -a cols <<< "${header}"
-		{
-			echo "# Spoon Diversity Data Dictionary (v0.3)"
-			echo
-			echo "This file is generated from the CSV header via scripts/kiro spec:sync."
-			echo
-			echo "## Columns"
-			for c in "${cols[@]}"; do
-				case "${c}" in
-					ParticipantID) type="string"; unit=""; map="schema:identifier (sp:Participant)";;
-					HandSize_cm) type="decimal >= 0"; unit="cm"; map="sp:handSizeCm";;
-					TaskID) type="string"; unit=""; map="sp:Task (identifier)";;
-					ToolSet) type="string"; unit=""; map="sp:ToolSet (identifier)";;
-					Time_s) type="decimal >= 0"; unit="s"; map="sp:timeSeconds";;
-					NumOperations) type="integer >= 0"; unit="count"; map="sp:numOperations";;
-					ErrorRate_pct) type="decimal 0–100"; unit="%"; map="sp:errorRatePercent";;
-					SwitchCount) type="integer >= 0"; unit="count"; map="sp:switchCount";;
-					SwitchTime_s) type="decimal >= 0"; unit="s"; map="sp:switchTimeSeconds";;
-					PerceivedCognitiveCost) type="integer 1–7"; unit="Likert"; map="sp:perceivedCognitiveCost";;
-					PerceivedDiscomfort) type="integer 1–7"; unit="Likert"; map="sp:perceivedDiscomfort";;
-					*) type="string"; unit=""; map="";;
-				esac
-				printf "### %s\n- Type: %s\n- Unit: %s\n- Mapping: %s\n\n" "${c}" "${type}" "${unit}" "${map}"
-			done
-			echo "## Missing-Value Policy"
-			echo "- Use empty cells for missing numeric values; do not use NaN."
-			echo "- Use 'NA' for categorical unknowns where applicable."
-		} > "${dict}"
-
-		echo "✅ spec:sync updated ${dict}"
+		python3 -m spoon_diversity.cli sync --ontology "${ontology}" --csv "${csv}" --dict "${dict}"
 		;;
 
 	spec:derive)
-		# Placeholder for future derivations
-		if [[ "${1:-}" == "--all" ]]; then
-			echo "No derivations implemented yet. Skipping."
-		else
+		if [[ "${1:-}" != "--all" ]]; then
 			echo "Usage: ./scripts/kiro spec:derive --all" >&2
 			exit 2
 		fi
+		# Derive artifacts using Python helpers:
+		# - JSON Schema from SHACL
+		# - Regenerate data dictionary from ontology+CSV header
+		python3 - <<'PYCODE'
+from pathlib import Path
+from spoon_diversity import validators
+
+root = Path(".").resolve()
+ttl = root / "spore_SpoonDiversityOntology_v0.4.ttl"
+csv = root / "spoon_diversity_dataset_template_v0.4.csv"
+shapes = root / "spoon_shapes_v0.4.ttl"
+dict_out = root / "spoon_diversity_data_dictionary_v0.4.md"
+schema_out = root / "spoon_diversity_schema_v0.4.json"
+
+validators.generate_dictionary(csv, dict_out, ttl)
+validators.generate_json_schema_from_shacl(shapes, schema_out)
+print("✅ spec:derive refreshed dictionary and JSON schema.")
+PYCODE
 		;;
 
 	*)

@@ -1,3 +1,16 @@
+# Product Steering – Spoon Diversity Study
+
+## Mission
+Deliver a reproducible, versioned study bundle (ontology, shapes, dataset schema, diagrams, paper) with robust validation and CI.
+
+## Users
+- Researchers running the study and validating data
+- Contributors maintaining ontology and docs
+
+## Quality Bars
+- All artifacts validate in CI
+- Clear quickstart and data dictionary
+
 # Spoon Diversity Study – Product Steering (v0.3)
 
 Purpose: Provide persistent context for the study “Minimal Tool‑Set Diversity: A Spoon‑Size Case Study of Tool‑Set Morphological Complementarity.”

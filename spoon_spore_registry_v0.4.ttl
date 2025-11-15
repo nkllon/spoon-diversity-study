@@ -1,0 +1,28 @@
+@prefix spore: <https://ontology.beastmost.com/spore#> .
+@prefix plan:  <https://ontology.beastmost.com/plan#> .
+@prefix prov:  <http://www.w3.org/ns/prov#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+
+# Spore Registry for Spoon Diversity Study (v0.4)
+@base <https://ontology.example.org/spoon-diversity/> .
+
+<spore/Spore001_v0.4>
+    a spore:Spore ;
+    rdfs:label "Spoon Diversity Study Spore v0.4" ;
+    spore:linksTo <artifact/ontology/spore_SpoonDiversityOntology_v0.4.ttl> ,
+                  <artifact/dataset/spoon_diversity_dataset_template_v0.4.csv> ,
+                  <artifact/paper/spoon_diversity_study_paper_v0.4.md> ;
+    spore:derivedFrom <bundle/v0.4> ;
+    prov:wasDerivedFrom <bundle/v0.4> ;
+    spore:createdAt "2025-11-15T00:00:00Z"^^xsd:dateTime ;
+    spore:status "active" .
+
+<spoon_spore_registry_v0.4.ttl>
+    a spore:SporeRegistry ;
+    rdfs:label "Spoon Diversity Spore Registry" ;
+    spore:lastUpdated "2025-11-15T00:00:00Z"^^xsd:dateTime ;
+    spore:registryVersion "0.4.0" .
+
+
