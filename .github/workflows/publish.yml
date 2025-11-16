@@ -51,9 +51,13 @@ jobs:
 
       - name: Determine publish channel
         id: channel
-        shell: bash
         run: |
-          PROJECT_VERSION="$(python - <<'PY'\nimport tomllib\nwith open('pyproject.toml','rb') as f:\n    data = tomllib.load(f)\nprint(data['project']['version'])\nPY\n)"
+          python - <<'PY' > .project_version
+import tomllib
+with open('pyproject.toml','rb') as f:
+    print(tomllib.load(f)['project']['version'])
+PY
+          PROJECT_VERSION="$(cat .project_version)"
           if echo "$PROJECT_VERSION" | grep -Eiq '(a|b|rc)'; then
             echo "channel=testpypi" >> "$GITHUB_OUTPUT"
           else
