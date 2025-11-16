@@ -31,21 +31,23 @@ jobs:
           pip install build
 
       - name: Verify tag matches version
-        shell: bash
         run: |
-          TAG_NAME="${GITHUB_REF#refs/tags/}"
-          TAG_VERSION="${TAG_NAME#v}"
-          # Normalize PEP 440 pre-release: map v0.3.1-rc1 -> 0.3.1rc1 (remove hyphen before letters)
-          TAG_VERSION_NORM="$(echo "$TAG_VERSION" | sed -E 's/-([A-Za-z]+)/\1/')"
-          PROJECT_VERSION="$(python - <<'PY'\nimport tomllib\nwith open('pyproject.toml','rb') as f:\n    data = tomllib.load(f)\nprint(data['project']['version'])\nPY\n)"
-          echo "Tag: $TAG_NAME"
-          echo "Tag version: $TAG_VERSION (normalized: $TAG_VERSION_NORM)"
-          echo "Project version: $PROJECT_VERSION"
-          if [ "$TAG_VERSION_NORM" != "$PROJECT_VERSION" ]; then
-            echo "❌ ERROR: Tag version ($TAG_VERSION_NORM) does not match project version ($PROJECT_VERSION)"
-            exit 1
-          fi
-          echo "✓ Version validation passed"
+          python - <<'PY'
+          import os, re, sys, tomllib
+          tag = os.environ.get('GITHUB_REF','').split('/')[-1]
+          tag_ver = tag[1:] if tag.startswith('v') else tag
+          tag_ver_norm = re.sub(r'-(?=[A-Za-z])', '', tag_ver)
+          with open('pyproject.toml','rb') as f:
+              proj = tomllib.load(f)
+          proj_ver = proj['project']['version']
+          print(f"Tag: {tag}")
+          print(f"Tag version: {tag_ver} (normalized: {tag_ver_norm})")
+          print(f"Project version: {proj_ver}")
+          if tag_ver_norm != proj_ver:
+              print(f"❌ ERROR: Tag version ({tag_ver_norm}) does not match project version ({proj_ver})")
+              sys.exit(1)
+          print("✓ Version validation passed")
+          PY
 
       - name: Determine publish channel
         id: channel
