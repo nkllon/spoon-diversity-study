@@ -1,0 +1,34 @@
+name: Prerelease (Semantic Release)
+
+on:
+  workflow_dispatch:
+    inputs:
+      level:
+        description: "Pre-release level (rc, beta, alpha)"
+        required: false
+        default: "rc"
+
+jobs:
+  prerelease:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install semantic-release
+        run: |
+          python -m pip install --upgrade pip
+          pip install python-semantic-release build
+      - name: Semantic Release (prerelease)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          semantic-release version --prerelease ${{ github.event.inputs.level }}
+          semantic-release publish
+
+

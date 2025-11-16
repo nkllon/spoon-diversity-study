@@ -23,6 +23,7 @@ dev = [
   "black>=24.0",
   "mypy>=1.8.0",
   "build>=1.2.1",
+  "python-semantic-release>=9.0.0",
 ]
 
 [tool.black]
@@ -43,5 +44,11 @@ disallow_untyped_defs = true
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/spoon_diversity"]
+
+[tool.semantic_release]
+version_source = "file"
+version_variables = ["pyproject.toml:project.version"]
+build_command = "python -m build"
+branches = ["main"]
 
 
