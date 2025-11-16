@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "spoon-diversity-tools"
-version = "0.3.1rc1"
+version = "0.3.1rc2"
 description = "CLI utilities for the Spoon Diversity Study: validate artifacts and sync data dictionary."
 readme = "README_SpoonDiversityStudy_v0.3.md"
 requires-python = ">=3.10"
