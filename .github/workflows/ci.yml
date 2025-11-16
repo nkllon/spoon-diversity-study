@@ -41,4 +41,42 @@ jobs:
           name: coverage-xml
           path: coverage.xml
 
+  sonar:
+    needs: [test]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Sonar token present
+        run: |
+          if [ -z "${{ secrets.SONAR_TOKEN }}" ]; then
+            echo "SONAR_TOKEN is not configured. Set it as an org or repo secret via stdin."; exit 1;
+          fi
+      - name: Export SONAR_TOKEN to environment (masked)
+        run: |
+          echo "::add-mask::${{ secrets.SONAR_TOKEN }}"
+          echo "SONAR_TOKEN=${{ secrets.SONAR_TOKEN }}" >> $GITHUB_ENV
+
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install ".[dev]"
+
+      - name: Run tests with coverage (for Sonar)
+        run: |
+          pytest --cov=src --cov-report=xml --cov-report=term tests/
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: https://sonarcloud.io
 

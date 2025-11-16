@@ -15,4 +15,9 @@ THE package SHALL support Python 3.10–3.12 and install via `pip`.
 ## 5. Testing
 THE package SHALL include tests with coverage ≥ 80% on src; produce coverage.xml.
 
+## 6. Build/install robustness (discovered failure modes)
+- THE build system SHALL pin `hatchling>=1.24` and declare wheel package path (`packages=["src/spoon_diversity"]`).
+- THE package SHALL install with `pip install ".[dev]"` on a clean environment (no editable requirement for CI).
+- THE CLI SHALL build with `python -m build` without errors; if errors occur THEN remediation guidance SHALL be present in docs.
+
 
