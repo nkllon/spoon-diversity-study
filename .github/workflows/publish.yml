@@ -35,7 +35,7 @@ jobs:
         run: |
           TAG_NAME="${GITHUB_REF#refs/tags/}"
           TAG_VERSION="${TAG_NAME#v}"
-          PROJECT_VERSION="$(grep '^version[[:space:]]*=' pyproject.toml | sed 's/version[[:space:]]*=[[:space:]]*\"\\(.*\\)\"/\\1/')"
+          PROJECT_VERSION="$(python - <<'PY'\nimport tomllib\nwith open('pyproject.toml','rb') as f:\n    data = tomllib.load(f)\nprint(data['project']['version'])\nPY\n)"
           echo "Tag: $TAG_NAME"
           echo "Tag version: $TAG_VERSION"
           echo "Project version: $PROJECT_VERSION"
