@@ -42,3 +42,7 @@ def main() -> None:
         print(f"✅ sync: updated {args.dict}")
     else:
         parser.error("Unknown command")
+
+
+if __name__ == "__main__":
+    main()
