@@ -13,6 +13,7 @@ Minimal Tool‑Set Diversity: a spoon‑size case study of tool‑set morphologi
 - Registries: `spoon_spore_registry_v0.3.ttl`, `guidance_spoon_v0.3.ttl`
 - SDD: `.kiro/steering/*`, `.kiro/specs/*`, `AGENTS.md`, `docs/SDD_Tooling.md`, `docs/TRACEABILITY.md`
 - CLI (PyPI package name: spoon-diversity-tools): `src/spoon_diversity/*`
+- Cloud fit assessment: `docs/oci_ai_agent_hub_assessment.md`
 
 ## Quick start
 
