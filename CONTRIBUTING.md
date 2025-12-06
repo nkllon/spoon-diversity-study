@@ -27,6 +27,9 @@ pytest --cov=src --cov-report=term
 printf '%s' '<TOKEN>' | gh secret set SONAR_TOKEN --repo nkllon/spoon-diversity-study --body -
 ```
 
+`SONAR_TOKEN` must be a SonarCloud project token with "Execute Analysis" permission that is accessible to this repo/org so the
+Sonar job can authenticate.
+
 Prefer org-level secrets; repo-level only for overrides.
 
 ## Conventional Commits (required)
