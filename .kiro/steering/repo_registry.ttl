@@ -1,0 +1,152 @@
+@prefix repo: <https://ontology.example.org/repo#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@base <https://ontology.example.org/local-repos/> .
+
+<registry>
+  a repo:RepositoryRegistry ;
+  rdfs:label "Local Development Repositories Registry" ;
+  repo:rootPath "/Volumes/lemon/cursor" ;
+  repo:lastUpdated "2025-11-15T00:00:00Z"^^xsd:dateTime .
+
+# Non-repo folder landmarks (for classification)
+<folder/fort>
+  a repo:Folder ;
+  rdfs:label "fort (local folder)" ;
+  repo:localPath "/Volumes/lemon/cursor/fort" .
+
+# Repositories discovered under /Volumes/lemon/cursor
+<repo/OpenFlow-Playground>
+  a repo:Repository ;
+  rdfs:label "OpenFlow-Playground" ;
+  repo:localPath "/Volumes/lemon/cursor/OpenFlow-Playground" ;
+  repo:originUrl "https://github.com/louspringer/OpenFlow-Playground.git" ;
+  repo:tags "playground" .
+
+<repo/UL25>
+  a repo:Repository ;
+  rdfs:label "UL25" ;
+  repo:localPath "/Volumes/lemon/cursor/UL25" ;
+  repo:originUrl "https://github.com/louspringer/UL25.git" ;
+  repo:tags "ul" .
+
+<repo/beast-agent>
+  a repo:Repository ;
+  rdfs:label "beast-agent" ;
+  repo:localPath "/Volumes/lemon/cursor/beast-agent" ;
+  repo:originUrl "https://github.com/nkllon/beast-agent.git" ;
+  repo:tags "beast" .
+
+<repo/beast-ai-dev-agent>
+  a repo:Repository ;
+  rdfs:label "beast-ai-dev-agent" ;
+  repo:localPath "/Volumes/lemon/cursor/beast-ai-dev-agent" ;
+  repo:originUrl "https://github.com/nkllon/beast-ai-dev-agent.git" ;
+  repo:tags "beast" .
+
+<repo/beast-dream-snow-loader>
+  a repo:Repository ;
+  rdfs:label "beast-dream-snow-loader" ;
+  repo:localPath "/Volumes/lemon/cursor/beast-dream-snow-loader" ;
+  repo:originUrl "https://github.com/nkllon/beast-dream-snow-loader.git" ;
+  repo:tags "beast" .
+
+<repo/beast-mailbox-agent>
+  a repo:Repository ;
+  rdfs:label "beast-mailbox-agent" ;
+  repo:localPath "/Volumes/lemon/cursor/beast-mailbox-agent" ;
+  repo:originUrl "https://github.com/nkllon/beast-mailbox-agent.git" ;
+  repo:tags "beast" .
+
+<repo/beast-mailbox-core>
+  a repo:Repository ;
+  rdfs:label "beast-mailbox-core" ;
+  repo:localPath "/Volumes/lemon/cursor/beast-mailbox-core" ;
+  repo:originUrl "https://github.com/nkllon/beast-mailbox-core.git" ;
+  repo:tags "beast" .
+
+<repo/beast-mailbox-osx>
+  a repo:Repository ;
+  rdfs:label "beast-mailbox-osx" ;
+  repo:localPath "/Volumes/lemon/cursor/beast-mailbox-osx" ;
+  repo:originUrl "https://github.com/nkllon/beast-mailbox-osx.git" ;
+  repo:tags "beast" .
+
+<repo/beast-node>
+  a repo:Repository ;
+  rdfs:label "beast-node" ;
+  repo:localPath "/Volumes/lemon/cursor/beast-node" ;
+  repo:originUrl "https://github.com/nkllon/beast-node.git" ;
+  repo:tags "beast" .
+
+<repo/beast-observatory>
+  a repo:Repository ;
+  rdfs:label "beast-observatory" ;
+  repo:localPath "/Volumes/lemon/cursor/beast-observatory" ;
+  repo:originUrl "https://github.com/nkllon/beast-observatory.git" ;
+  repo:tags "beast" .
+
+<repo/beast-orchestrator>
+  a repo:Repository ;
+  rdfs:label "beast-orchestrator" ;
+  repo:localPath "/Volumes/lemon/cursor/beast-orchestrator" ;
+  repo:originUrl "https://github.com/nkllon/beast-orchestrator.git" ;
+  repo:tags "beast" .
+
+<repo/beast-unifi-integration>
+  a repo:Repository ;
+  rdfs:label "beast-unifi-integration" ;
+  repo:localPath "/Volumes/lemon/cursor/beast-unifi-integration" ;
+  repo:originUrl "https://github.com/nkllon/beast-unifi-integration.git" ;
+  repo:tags "beast" .
+
+<repo/cc-sdd>
+  a repo:Repository ;
+  rdfs:label "cc-sdd" ;
+  repo:localPath "/Volumes/lemon/cursor/cc-sdd" ;
+  repo:originUrl "https://github.com/nkllon/cc-sdd.git" ;
+  repo:tags "kiro" .
+
+<repo/composable-ai-advisors>
+  a repo:Repository ;
+  rdfs:label "composable-ai-advisors" ;
+  repo:localPath "/Volumes/lemon/cursor/composable-ai-advisors" ;
+  repo:originUrl "https://github.com/nkllon/composable-ai-advisors.git" ;
+  repo:tags "ontology" .
+
+<repo/deep-writer>
+  a repo:Repository ;
+  rdfs:label "deep-writer" ;
+  repo:localPath "/Volumes/lemon/cursor/deep-writer" ;
+  repo:originUrl "git@github.com:nkllon/deep-writer.git" ;
+  repo:tags "writing" .
+
+<repo/kiro-ai-development-hackathon>
+  a repo:Repository ;
+  rdfs:label "kiro-ai-development-hackathon" ;
+  repo:localPath "/Volumes/lemon/cursor/kiro-ai-development-hackathon" ;
+  repo:originUrl "https://github.com/nkllon/kiro-ai-development-hackathon.git" ;
+  repo:tags "kiro" .
+
+<repo/lemonaide>
+  a repo:Repository ;
+  rdfs:label "lemonaide" ;
+  repo:localPath "/Volumes/lemon/cursor/lemonaide" ;
+  repo:originUrl "https://github.com/nkllon/catbert-lemonaide.git" ;
+  repo:tags "lemonaide" .
+
+<repo/nkllon-stories>
+  a repo:Repository ;
+  rdfs:label "nkllon-stories" ;
+  repo:localPath "/Volumes/lemon/cursor/nkllon-stories" ;
+  repo:originUrl "https://github.com/nkllon/nkllon-stories.git" ;
+  repo:tags "stories" .
+
+<repo/spoon-diversity-study>
+  a repo:Repository ;
+  rdfs:label "spoon-diversity-study" ;
+  repo:localPath "/Volumes/lemon/cursor/spoon-diversity-study" ;
+  repo:originUrl "https://github.com/nkllon/spoon-diversity-study.git" ;
+  repo:tags "spoon" .
+
+

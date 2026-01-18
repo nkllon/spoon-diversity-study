@@ -6,6 +6,7 @@
 - Tests at `tests/`
 - Steering `.kiro/steering/`
 - Specs `.kiro/specs/`
+- Repository registry ontology: `.kiro/steering/repo_registry.ttl` (discovered under `/Volumes/lemon/cursor/*`)
 
 ## Versioning
 - Bundle versions `v0.x` mirrored across filenames

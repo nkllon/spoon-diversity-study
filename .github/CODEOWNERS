@@ -1,0 +1,7 @@
+# Require review for CI/CD and steering changes
+.github/workflows/*   @nkllon
+.github/*             @nkllon
+.kiro/steering/*      @nkllon
+scripts/*             @nkllon
+Makefile              @nkllon
+
