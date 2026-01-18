@@ -13,6 +13,7 @@ Minimal Tool‑Set Diversity: a spoon‑size case study of tool‑set morphologi
 - Registries: `spoon_spore_registry_v0.3.ttl`, `guidance_spoon_v0.3.ttl`
 - SDD: `.kiro/steering/*`, `.kiro/specs/*`, `AGENTS.md`, `docs/SDD_Tooling.md`, `docs/TRACEABILITY.md`
 - CLI (PyPI package name: spoon-diversity-tools): `src/spoon_diversity/*`
+- Cloud fit assessment: `docs/oci_ai_agent_hub_assessment.md`
 
 ## Quick start
 
@@ -41,6 +42,7 @@ See `AGENTS.md`. Typical flow in Cursor chat:
 - CI (PR/main): ruff, black (check), mypy, pytest (3.10/3.11/3.12), coverage.xml
 - Sonar: runs only after tests pass (separate job with `needs: [test]`), fetch-depth: 0
 - Secrets: set via stdin only
+  - `SONAR_TOKEN`: SonarCloud project token with "Execute Analysis" permission available to this repo/org.
   ```bash
   printf '%s' '<TOKEN>' | gh secret set SONAR_TOKEN --repo nkllon/spoon-diversity-study --body -
   ```
